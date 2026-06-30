@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="/styles.css" rel="stylesheet" />
+    <style>
+      :root {
+        --green: #2e7d32;
+        --green-dark: #1b5e20;
+        --yellow: #f4c542;
+        --orange: #f28c28;
+        --orange-dark: #c96a12;
+        --light: #fffdf7;
+        --surface: #ffffff;
+        --text: #1f2937;
+      }
+
+      body {
+        font-family: Arial, sans-serif;
+        background: var(--light);
+        color: var(--text);
+      }
+
+      .navbar {
+        background: linear-gradient(90deg, var(--green-dark), var(--green));
+      }
+
+      .navbar-brand,
+      .navbar .nav-link {
+        color: #fff !important;
+      }
+
+      .navbar-brand {
+        color: var(--yellow) !important;
+      }
+
+      .btn-accent {
+        background: var(--orange);
+        border-color: var(--orange);
+        color: #fff;
+      }
+
+      .btn-accent:hover {
+        background: var(--orange-dark);
+        border-color: var(--orange-dark);
+      }
+
+      .btn-outline-light {
+        border-color: var(--yellow);
+        color: var(--yellow);
+      }
+
+      .btn-outline-light:hover {
+        background: var(--yellow);
+        color: var(--text);
+        border-color: var(--yellow);
+      }
+
+      .hero {
+        background: linear-gradient(135deg, var(--green-dark), var(--green), var(--orange));
+        color: #fff;
+        padding: 5rem 0;
+      }
+
+      .hero .card {
+        background: var(--surface);
+        border-top: 6px solid var(--yellow);
+        color: var(--text);
+      }
+
+      .card {
+        border: 1px solid #f3e4bc;
+        box-shadow: 0 8px 24px rgba(27, 94, 32, 0.08);
+      }
+
+      .feature-icon {
+        font-size: 1.6rem;
+        color: var(--orange);
+      }
+
+      .bg-white {
+        background-color: var(--surface) !important;
+      }
+
+      .section-title,
+      h2,
+      h5 {
+        color: var(--green-dark);
+      }
+
+      .badge,
+      .highlight {
+        color: var(--yellow);
+      }
+    </style>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+      <div class="container">
+        <a class="navbar-brand fw-bold" href="/">Mobile Garage System</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#nav"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="nav">
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+            <li class="nav-item"><a class="nav-link" href="#modules">Modules</a></li>
+            <li class="nav-item"><a class="nav-link" href="/register">Create Account</a></li>
+            <li class="nav-item"><a class="nav-link" href="/login">Login</a></li>
+            <li class="nav-item"><a class="nav-link" href="/create-garage">Create Garage</a></li>
+            <li class="nav-item"><a class="nav-link" href="/api/garages">API</a></li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <section class="hero">
+      <div class="container">
+        <div class="row align-items-center g-4">
+          <div class="col-lg-7">
+            <h1 class="display-5 fw-bold" style="color: var(--yellow);">Modern garage booking and management for Uganda</h1>
+            <p class="lead">Connect customers with trusted garages, manage bookings, enable roadside assistance, and power operations with analytics and secure payments.</p>
+            <a class="btn btn-accent btn-lg" href="/garages">Explore Garages</a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="/register">Create Account</a>
+            <a class="btn btn-outline-light btn-lg ms-2" href="/login">Login</a>
+          </div>
+          <div class="col-lg-5">
+            <div class="card p-4">
+              <h5 class="fw-bold">Platform highlights</h5>
+              <ul class="mb-0">
+                <li>Customer booking flow</li>
+                <li>Garage owner dashboard</li>
+                <li>Admin analytics and approvals</li>
+                <li>Secure auth and role-based access</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="features" class="py-5">
+      <div class="container">
+        <div class="row g-4">
+          <div class="col-md-4">
+            <div class="card p-4 h-100">
+              <div class="feature-icon">🔧</div>
+              <h5 class="mt-3">Garage discovery</h5>
+              <p>Search by location, service type, rating, and availability across Uganda.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card p-4 h-100">
+              <div class="feature-icon">🧾</div>
+              <h5 class="mt-3">Bookings & payments</h5>
+              <p>Book appointments, track status, generate invoices, and support mobile money or cards.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="card p-4 h-100">
+              <div class="feature-icon">📈</div>
+              <h5 class="mt-3">Analytics</h5>
+              <p>Admin and owner dashboards with KPIs, reports, and real-time updates.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules" class="py-5 bg-white">
+      <div class="container">
+        <h2 class="fw-bold mb-4">Included modules</h2>
+        <div class="row g-3">
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Authentication & RBAC</div></div>
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Garage management</div></div>
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Booking workflow</div></div>
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Emergency assistance</div></div>
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Notifications</div></div>
+          <div class="col-md-6 col-lg-4"><div class="card p-3">Reports & analytics</div></div>
+        </div>
+      </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

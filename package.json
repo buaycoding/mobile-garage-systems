@@ -1,0 +1,43 @@
+{
+  "name": "garage-booking-system",
+  "version": "1.0.0",
+  "description": "Full-stack garage booking and management system for Uganda",
+  "main": "src/app.js",
+  "scripts": {
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
+    "test": "node --test"
+  },
+  "keywords": [
+    "garage",
+    "booking",
+    "express",
+    "ejs",
+    "postgres"
+  ],
+  "author": "OpenAI",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "compression": "^1.7.0",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.3",
+    "csurf": "^1.9.0",
+    "dotenv": "^16.4.1",
+    "ejs": "^3.1.0",
+    "express": "^4.21.2",
+    "express-rate-limit": "^7.1.0",
+    "express-validator": "^7.0.2",
+    "helmet": "^8.1.5",
+    "jsonwebtoken": "^9.0.3",
+    "morgan": "^1.10.4",
+    "multer": "^2.2.0",
+    "pg": "^8.6.0",
+    "socket.io": "^4.1.0",
+    "uuid": "^11.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.14",
+    "supertest": "^7.2.0"
+  }
+}
