@@ -154,13 +154,19 @@ const createMemoryPool = () => {
   };
 };
 
-const pool = new Pool({
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT || 5432,
-  database: process.env.DB_NAME || 'garage system',
-  user: process.env.DB_USER || 'postgres',
-  password: process.env.DB_PASSWORD || 'buayca10',
-});
+const connectionString = process.env.DATABASE_URL || process.env.DB_URL;
+
+const pool = new Pool(
+  connectionString
+    ? { connectionString }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'garage system',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'buayca10',
+      }
+);
 
 pool.connect()
   .then((client) => {
