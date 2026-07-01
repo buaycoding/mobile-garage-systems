@@ -1,9 +1,8 @@
 services:
   - type: web_service
     name: mobile-garage-sys
-    env: docker
+    env: node
     plan: free
-    dockerfilePath: Dockerfile
     envVars:
       - key: PORT
         value: "3000"
