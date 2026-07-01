@@ -36,6 +36,13 @@ This project is a production-ready full-stack web application for connecting veh
 ## API Notes
 The application exposes basic endpoints at /api/auth, /api/garages, /api/bookings, and /api/dashboard.
 
+## Render Deployment
+1. Deploy using Render with Docker.
+2. Use `Dockerfile` and `npm ci --omit=dev` to build.
+3. Set `DATABASE_URL` from a Render PostgreSQL database service.
+4. Set secure secrets: `JWT_SECRET` and `JWT_REFRESH_SECRET`.
+5. Use `PORT=3000` or let Render assign the port.
+
 ## Next Steps
 - Implement full JWT auth flow
 - Add database-backed CRUD for garages and bookings
