@@ -3,19 +3,45 @@ services:
     name: mobile-garage-sys
     env: node
     plan: free
+    # Replace placeholder values with your real secrets in the Render dashboard (do not commit secrets)
     envVars:
-      - key: PORT
-        value: "3000"
-      - key: NODE_ENV
-        value: production
       - key: DATABASE_URL
-        fromDatabase:
-          name: garage-booking-db
-          type: postgresql
-          property: connectionString
+        value: "postgresql://postgres:YOUR_PASSWORD@HOST:5432/garage_booking"
+      - key: DB_HOST
+        value: "HOST"
+      - key: DB_PORT
+        value: "5432"
+      - key: DB_NAME
+        value: "garage_booking"
+      - key: DB_USER
+        value: "postgres"
+      - key: DB_PASSWORD
+        value: "YOUR_DB_PASSWORD"
       - key: JWT_SECRET
         value: "replace_with_secret"
       - key: JWT_REFRESH_SECRET
         value: "replace_with_refresh_secret"
+      - key: NODE_ENV
+        value: "production"
+      - key: PORT
+        value: "3000"
+      - key: BASE_URL
+        value: "https://your-app.onrender.com"
+      - key: CLOUDINARY_CLOUD_NAME
+        value: ""
+      - key: CLOUDINARY_API_KEY
+        value: ""
+      - key: CLOUDINARY_API_SECRET
+        value: ""
+      - key: SMTP_HOST
+        value: ""
+      - key: SMTP_PORT
+        value: "587"
+      - key: SMTP_USER
+        value: ""
+      - key: SMTP_PASS
+        value: ""
+      - key: SMTP_FROM
+        value: "no-reply@your-domain.com"
     buildCommand: npm ci --omit=dev
     startCommand: npm start
