@@ -165,6 +165,9 @@ const pool = new Pool(
         database: process.env.DB_NAME || 'garage_booking',
         user: process.env.DB_USER || 'postgres',
         password: process.env.DB_PASSWORD || 'postgres',
+      }
+);
+
 pool.connect()
   .then((client) => {
     console.log('✅ PostgreSQL connected');
