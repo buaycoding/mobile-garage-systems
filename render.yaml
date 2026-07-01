@@ -12,15 +12,15 @@ services:
       - key: DB_PORT
         value: "5432"
       - key: DB_NAME
-        value: "garage_booking"
+        value: "garage system"
       - key: DB_USER
         value: "postgres"
       - key: DB_PASSWORD
-        value: "YOUR_DB_PASSWORD"
+        value: "buayca10"
       - key: JWT_SECRET
         value: "replace_with_secret"
-      - key: JWT_REFRESH_SECRET
-        value: "replace_with_refresh_secret"
+      - key: change_me_super_secret
+        value: "change_me_refresh_secret"
       - key: NODE_ENV
         value: "production"
       - key: PORT
