@@ -156,38 +156,25 @@ const createMemoryPool = () => {
 
 const connectionString = process.env.DATABASE_URL || process.env.DB_URL;
 
-// Helper to detect placeholder values that indicate no configured DB
-const looksLikePlaceholder = (val) => !val || String(val).trim() === '' || /\bHOST\b/i.test(val) || /garage\s?system/i.test(val);
+const pool = new Pool(
+  connectionString
+    ? { connectionString }
+    : {
+        host: process.env.DB_HOST || 'localhost',
+        port: process.env.DB_PORT || 5432,
+        database: process.env.DB_NAME || 'garage_booking',
+        user: process.env.DB_USER || 'postgres',
+        password: process.env.DB_PASSWORD || 'postgres',
+      }
+);
 
-let pool;
-let usingMemoryPool = false;
-
-if (!looksLikePlaceholder(connectionString)) {
-  pool = new Pool({ connectionString });
-} else if (!looksLikePlaceholder(process.env.DB_HOST)) {
-  pool = new Pool({
-    host: process.env.DB_HOST || 'localhost',
-    port: process.env.DB_PORT || 5432,
-    database: process.env.DB_NAME || 'garage_booking',
-    user: process.env.DB_USER || 'postgres',
-    password: process.env.DB_PASSWORD || 'postgres',
+pool.connect()
+  .then((client) => {
+    console.log('✅ PostgreSQL connected');
+    client.release();
+  })
+  .catch((err) => {
+    console.warn('⚠️ PostgreSQL connection warning:', err.message);
   });
-} else {
-  // No valid remote DB configured — use in-memory fallback to avoid ENOTFOUND errors in logs
-  pool = createMemoryPool();
-  usingMemoryPool = true;
-  console.warn('⚠️ No valid DATABASE_URL or DB_HOST provided; using in-memory fallback.');
-}
-
-if (!usingMemoryPool) {
-  pool.connect()
-    .then((client) => {
-      console.log('✅ PostgreSQL connected');
-      client.release();
-    })
-    .catch((err) => {
-      console.warn('⚠️ PostgreSQL connection warning:', err.message);
-    });
-}
 
 module.exports = { pool };
