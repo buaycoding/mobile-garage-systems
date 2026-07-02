@@ -6,7 +6,7 @@ services:
     # Replace placeholder values with your real secrets in the Render dashboard (do not commit secrets)
     envVars:
       - key: DATABASE_URL
-        value: "postgresql://postgres:YOUR_PASSWORD@HOST:5432/garage_booking"
+        value: "postgresql://postgres:buayca10@HOST:5432/garage system"
       - key: DB_HOST
         value: "HOST"
       - key: DB_PORT

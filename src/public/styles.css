@@ -76,3 +76,29 @@ h1, h2, h3, h4, h5, h6 {
   background: var(--secondary) !important;
   color: var(--text) !important;
 }
+
+@media (max-width: 991.98px) {
+  .navbar-toggler {
+    display: none !important;
+  }
+
+  .navbar-collapse {
+    display: flex !important;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+  }
+
+  .navbar-nav {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-item {
+    width: 100%;
+  }
+
+  .navbar-nav .nav-link {
+    display: block;
+    padding: 0.6rem 0;
+  }
+}
