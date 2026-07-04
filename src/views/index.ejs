@@ -71,6 +71,35 @@
         color: var(--text);
       }
 
+      .hero-image-card {
+        background: rgba(255, 255, 255, 0.14);
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        border-radius: 20px;
+        padding: 0.75rem;
+        backdrop-filter: blur(8px);
+        overflow: hidden;
+      }
+
+      .hero-image {
+        width: 100%;
+        height: 320px;
+        object-fit: cover;
+        border-radius: 16px;
+        display: block;
+        animation: heroFloat 3.2s ease-in-out infinite;
+        transform-origin: center;
+      }
+
+      @keyframes heroFloat {
+        0%,
+        100% {
+          transform: scale(1) translateY(0);
+        }
+        50% {
+          transform: scale(1.04) translateY(-6px);
+        }
+      }
+
       .card {
         border: 1px solid #f3e4bc;
         box-shadow: 0 8px 24px rgba(27, 94, 32, 0.08);
@@ -156,14 +185,8 @@
             <a class="btn btn-outline-light btn-lg ms-2" href="/login">Login</a>
           </div>
           <div class="col-lg-5">
-            <div class="card p-4">
-              <h5 class="fw-bold">Platform highlights</h5>
-              <ul class="mb-0">
-                <li>Customer booking flow</li>
-                <li>Garage owner dashboard</li>
-                <li>Admin analytics and approvals</li>
-                <li>Secure auth and role-based access</li>
-              </ul>
+            <div class="hero-image-card">
+              <img src="/images/garage.jpg" alt="Garage service image" class="hero-image" />
             </div>
           </div>
         </div>

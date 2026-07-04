@@ -3,30 +3,26 @@ services:
     name: mobile-garage-sys
     env: node
     plan: free
-    # Replace placeholder values with your real secrets in the Render dashboard (do not commit secrets)
+    buildCommand: npm ci --omit=dev
+    startCommand: npm start
+    healthCheckPath: /
     envVars:
-      - key: DATABASE_URL
-        value: "postgresql://postgres:buayca10@HOST:5432/garage system"
-      - key: DB_HOST
-        value: "HOST"
-      - key: DB_PORT
-        value: "5432"
-      - key: DB_NAME
-        value: "garage system"
-      - key: DB_USER
-        value: "postgres"
-      - key: DB_PASSWORD
-        value: "buayca10"
-      - key: JWT_SECRET
-        value: "replace_with_secret"
-      - key: change_me_super_secret
-        value: "change_me_refresh_secret"
       - key: NODE_ENV
-        value: "production"
+        value: production
       - key: PORT
-        value: "3000"
+        value: 10000
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATABASE_URL
+        fromDatabase:
+          name: mobile-garage-db
+          property: connectionString
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JWT_REFRESH_SECRET
+        generateValue: true
       - key: BASE_URL
-        value: "https://your-app.onrender.com"
+        value: https://mobile-garage-sys.onrender.com
       - key: CLOUDINARY_CLOUD_NAME
         value: ""
       - key: CLOUDINARY_API_KEY
@@ -42,6 +38,10 @@ services:
       - key: SMTP_PASS
         value: ""
       - key: SMTP_FROM
-        value: "no-reply@your-domain.com"
-    buildCommand: npm ci --omit=dev
-    startCommand: npm start
+        value: no-reply@your-domain.com
+
+databases:
+  - name: mobile-garage-db
+    databaseName: mobile_garage
+    user: mobile_garage_user
+    plan: free

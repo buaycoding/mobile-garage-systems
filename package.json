@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node src/app.js",
     "dev": "nodemon src/app.js",
-    "test": "node --test"
+    "test": "node --test",
+    "init-db": "node scripts/init-db.js"
   },
   "keywords": [
     "garage",

@@ -192,7 +192,8 @@ io.on('connection', (socket) => {
 
 app.set('io', io);
 
-const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || '0.0.0.0';
+const PORT = Number(process.env.PORT || 3000);
 
 const startServer = async () => {
   try {
@@ -203,10 +204,36 @@ const startServer = async () => {
     console.warn('Database not available, continuing in development mode:', error.message);
   }
 
+  if (process.env.NODE_ENV === 'production' && process.env.DATABASE_URL) {
+    try {
+      const { execSync } = require('child_process');
+      console.log('Initializing database schema...');
+      execSync('node scripts/init-db.js', { stdio: 'inherit' });
+    } catch (initError) {
+      console.warn('Database schema initialization warning:', initError.message);
+    }
+  }
+
   if (process.env.NODE_ENV !== 'test') {
-    httpServer.listen(PORT, () => {
-      console.log(`Server running on http://localhost:${PORT}`);
-    });
+    const tryListen = (port) => {
+      httpServer.removeAllListeners('error');
+      httpServer.once('error', (error) => {
+        if (error.code === 'EADDRINUSE') {
+          const nextPort = port + 1;
+          console.warn(`Port ${port} is busy. Trying ${nextPort}...`);
+          tryListen(nextPort);
+        } else {
+          console.error('Failed to start server:', error);
+          process.exit(1);
+        }
+      });
+
+      httpServer.listen(port, HOST, () => {
+        console.log(`Server running on http://${HOST}:${port}`);
+      });
+    };
+
+    tryListen(PORT);
   }
 };
 
