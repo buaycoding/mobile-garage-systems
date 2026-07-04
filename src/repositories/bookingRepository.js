@@ -1,5 +1,19 @@
 const { pool } = require('../config/database');
 
+const isValidUuid = (value) => {
+  if (typeof value !== 'string') return false;
+  return /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(value);
+};
+
+const resolveForeignKey = async (tableName, value) => {
+  if (!value || !isValidUuid(value)) {
+    return null;
+  }
+
+  const result = await pool.query(`SELECT 1 FROM ${tableName} WHERE id = $1`, [value]);
+  return result.rowCount > 0 ? value : null;
+};
+
 const getGarageName = async (garageId) => {
   if (!garageId) return 'Garage';
   const result = await pool.query('SELECT name FROM garages WHERE id = $1', [garageId]);
@@ -13,11 +27,18 @@ const getServiceName = async (serviceId) => {
 };
 
 const createBooking = async ({ customerId, garageId, serviceId, vehicleId, bookingDate, bookingTime, totalAmount }) => {
+  const [resolvedCustomerId, resolvedGarageId, resolvedServiceId, resolvedVehicleId] = await Promise.all([
+    resolveForeignKey('users', customerId),
+    resolveForeignKey('garages', garageId),
+    resolveForeignKey('services', serviceId),
+    resolveForeignKey('vehicles', vehicleId)
+  ]);
+
   const result = await pool.query(
     `INSERT INTO bookings (customer_id, garage_id, service_id, vehicle_id, booking_date, booking_time, status, total_amount, payment_status)
      VALUES ($1, $2, $3, $4, $5, $6, 'pending', $7, 'pending')
      RETURNING *`,
-    [customerId, garageId, serviceId, vehicleId, bookingDate, bookingTime, totalAmount]
+    [resolvedCustomerId, resolvedGarageId, resolvedServiceId, resolvedVehicleId, bookingDate, bookingTime, totalAmount]
   );
   return result.rows[0];
 };
