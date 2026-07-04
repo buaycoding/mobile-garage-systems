@@ -81,7 +81,8 @@ app.get('/booking', (req, res) => {
 
 app.get('/garages', (req, res) => {
   const nearby = req.query.nearby === 'true';
-  res.render('garages', { title: 'Find Garages', nearby });
+  const query = req.query.query || 'Kampala, Uganda';
+  res.render('garages', { title: 'Find Garages', nearby, query });
 });
 
 app.get('/garage-detail', (req, res) => {
@@ -93,7 +94,12 @@ app.get('/emergency', (req, res) => {
 });
 
 app.get('/payment', (req, res) => {
-  res.render('payment', { title: 'Complete Payment' });
+  res.render('payment', {
+    title: 'Complete Payment',
+    defaultAmount: Number(req.query.amount || 120000),
+    defaultMethod: req.query.method || 'MTN Mobile Money',
+    defaultPhone: req.query.phone || ''
+  });
 });
 
 app.get('/notifications', (req, res) => {

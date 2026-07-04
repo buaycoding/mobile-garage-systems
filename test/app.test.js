@@ -24,6 +24,26 @@ test('GET /api/garages returns success payload', async () => {
   assert.equal(response.body.success, true);
 });
 
+test('POST /api/payments initiates a mobile money payment', async () => {
+  const response = await request(app).post('/api/payments').send({
+    amount: 120000,
+    method: 'MTN Mobile Money',
+    phoneNumber: '0772000111'
+  });
+
+  assert.equal(response.status, 201);
+  assert.equal(response.body.success, true);
+  assert.equal(response.body.data.payment.method, 'MTN Mobile Money');
+  assert.equal(response.body.data.payment.status, 'pending');
+});
+
+test('GET /garages?nearby=true renders the nearby map experience', async () => {
+  const response = await request(app).get('/garages?nearby=true');
+  assert.equal(response.status, 200);
+  assert.match(response.text, /Nearby Garages/i);
+  assert.match(response.text, /google\.com\/maps/i);
+});
+
 test('POST /api/auth/register creates a user and returns tokens', async () => {
   const response = await request(app).post('/api/auth/register').send({
     fullName: 'Test User',

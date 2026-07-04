@@ -66,6 +66,11 @@
       h4, h5 {
         color: var(--green-dark);
       }
+
+      iframe {
+        border: 0;
+        border-radius: 12px;
+      }
     </style>
   </head>
   <body>
@@ -77,12 +82,16 @@
 
     <div class="container py-5">
       <% if (nearby) { %>
-      <div class="alert alert-success mb-4">You’re signed in and seeing nearby garage options.</div>
+      <div class="alert alert-success mb-4">You’re seeing nearby garage options around your selected location.</div>
       <% } %>
       <div class="row g-4">
         <div class="col-lg-4">
           <div class="card p-4">
             <h4 class="mb-3">Search Garages</h4>
+            <div class="mb-3">
+              <label class="form-label">Search place</label>
+              <input id="map-query" class="form-control" value="<%= query %>" placeholder="Kampala, Uganda" />
+            </div>
             <div class="mb-3">
               <label class="form-label">Location</label>
               <select id="location-filter" class="form-select">
@@ -108,17 +117,20 @@
                 <option>5 stars</option>
               </select>
             </div>
-            <button class="btn btn-primary w-100">Search</button>
+            <button id="search-map" type="button" class="btn btn-primary w-100">Search Nearby</button>
           </div>
         </div>
 
         <div class="col-lg-8">
           <div class="card p-4 mb-4">
             <div class="d-flex justify-content-between align-items-center mb-3">
-              <h4 class="mb-0" id="garage-heading">All Garages</h4>
-              <a href="/garages?nearby=true" class="btn btn-outline-primary btn-sm">Show Nearby</a>
+              <h4 class="mb-0" id="garage-heading">Nearby Garages</h4>
+              <a href="/garages?nearby=true&query=<%= encodeURIComponent(query) %>" class="btn btn-outline-primary btn-sm">Show Nearby</a>
             </div>
-            <div class="alert alert-info mb-3">Browse the full garage list below, or switch to nearby garages when you want location-based suggestions.</div>
+            <div class="alert alert-info mb-3" id="garage-info">Google Maps will show garages near your chosen location.</div>
+            <div class="mb-3">
+              <iframe id="map-frame" width="100%" height="280" src="https://www.google.com/maps?q=<%= encodeURIComponent(query) %>&output=embed"></iframe>
+            </div>
             <div id="garage-list" class="row g-3">
               <div class="col-md-6 garage-card" data-location="kampala">
                 <div class="card p-3 h-100">
@@ -154,6 +166,10 @@
       const locationFilter = document.getElementById('location-filter');
       const garageCards = Array.from(document.querySelectorAll('.garage-card'));
       const heading = document.getElementById('garage-heading');
+      const info = document.getElementById('garage-info');
+      const mapFrame = document.getElementById('map-frame');
+      const mapQuery = document.getElementById('map-query');
+      const searchMap = document.getElementById('search-map');
 
       const applyFilter = () => {
         const value = locationFilter.value;
@@ -165,17 +181,35 @@
           if (match) visibleCount += 1;
         });
 
-        heading.textContent = value === 'all' ? 'All Garages' : `Nearby Garages in ${value.charAt(0).toUpperCase() + value.slice(1)}`;
+        heading.textContent = value === 'all' ? 'Nearby Garages' : `Nearby Garages in ${value.charAt(0).toUpperCase() + value.slice(1)}`;
         if (value === 'all') {
-          document.querySelector('.alert-info').textContent = 'Browse the full garage list below, or switch to nearby garages when you want location-based suggestions.';
+          info.textContent = 'Google Maps will show garages near your chosen location.';
         } else {
-          document.querySelector('.alert-info').textContent = `Showing garages near ${value.charAt(0).toUpperCase() + value.slice(1)}.`;
+          info.textContent = `Showing garages near ${value.charAt(0).toUpperCase() + value.slice(1)}.`;
         }
+      };
+
+      const updateMap = () => {
+        const query = mapQuery.value.trim() || 'Kampala, Uganda';
+        mapFrame.src = `https://www.google.com/maps?q=${encodeURIComponent(query)}&output=embed`;
       };
 
       if (locationFilter) {
         locationFilter.addEventListener('change', applyFilter);
         applyFilter();
+      }
+
+      if (searchMap) {
+        searchMap.addEventListener('click', updateMap);
+      }
+
+      if (mapQuery) {
+        mapQuery.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter') {
+            event.preventDefault();
+            updateMap();
+          }
+        });
       }
     </script>
   </body>
