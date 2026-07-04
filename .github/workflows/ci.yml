@@ -12,15 +12,15 @@ jobs:
 
     services:
       postgres:
-        image: postgres:18
+        image: postgres:16
         env:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: buayca10
-          POSTGRES_DB: mobile garage
+          POSTGRES_DB: mobile_garage
         ports:
           - 5432:5432
         options: >-
-          --health-cmd="pg_isready -U postgres"
+          --health-cmd="pg_isready -U postgres -d mobile_garage"
           --health-interval=10s
           --health-timeout=5s
           --health-retries=5
@@ -28,7 +28,7 @@ jobs:
     env:
       DB_HOST: localhost
       DB_PORT: 5432
-      DB_NAME: mobile garage
+      DB_NAME: mobile_garage
       DB_USER: postgres
       DB_PASSWORD: buayca10
 
@@ -39,10 +39,10 @@ jobs:
         with:
           node-version: 20
 
-      - run: npm install
+      - run: npm ci
 
-      # This runs your SQL schema against the test database container
-      - run: PGPASSWORD=buayca10 psql -h localhost -U postgres -d "mobile garage" -f "mobile garage sys/schema.sql"
-
+      - name: Load database schema
+        run: |
+          PGPASSWORD=${{ env.DB_PASSWORD }} psql -h localhost -U ${{ env.DB_USER }} -d ${{ env.DB_NAME }} -f schema.sql
 
       - run: npm test
