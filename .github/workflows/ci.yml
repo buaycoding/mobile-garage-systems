@@ -15,7 +15,7 @@ jobs:
         image: postgres:18
         env:
           POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: buayca
+          POSTGRES_PASSWORD: buayca10
           POSTGRES_DB: mobile garage
         ports:
           - 5432:5432
