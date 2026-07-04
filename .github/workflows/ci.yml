@@ -9,10 +9,39 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:18
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: buayca
+          POSTGRES_DB: mobile garage
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd="pg_isready -U postgres"
+          --health-interval=10s
+          --health-timeout=5s
+          --health-retries=5
+
+    env:
+      DB_HOST: localhost
+      DB_PORT: 5432
+      DB_NAME: mobile garage
+      DB_USER: postgres
+      DB_PASSWORD: buayca
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
-          node-version: 22
+          node-version: 20
+
       - run: npm install
+
+      # This runs your SQL schema against the test database container
+      - run: PGPASSWORD=buayca psql -h localhost -U postgres -d mobile_garage -f path/to/schema.sql
+
       - run: npm test
