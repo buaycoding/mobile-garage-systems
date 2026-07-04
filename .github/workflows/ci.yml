@@ -30,7 +30,7 @@ jobs:
       DB_PORT: 5432
       DB_NAME: mobile garage
       DB_USER: postgres
-      DB_PASSWORD: buayca
+      DB_PASSWORD: buayca10
 
     steps:
       - uses: actions/checkout@v4
@@ -42,6 +42,6 @@ jobs:
       - run: npm install
 
       # This runs your SQL schema against the test database container
-      - run: PGPASSWORD=buayca psql -h localhost -U postgres -d mobile garage -f path/to/schema.sql
+      - run: PGPASSWORD=buayca10 psql -h localhost -U postgres -d mobile garage -f path/to/schema.sql
 
       - run: npm test
