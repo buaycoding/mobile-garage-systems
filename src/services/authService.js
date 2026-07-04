@@ -13,6 +13,13 @@ const findUserByEmail = async (email) => {
   return result.rows[0] || null;
 };
 
+const ensureRoleExists = async (roleName) => {
+  await pool.query(
+    `INSERT INTO roles (name) VALUES ($1) ON CONFLICT (name) DO NOTHING`,
+    [roleName]
+  );
+};
+
 const createUser = async ({ fullName, email, password, phone, role = 'customer' }) => {
   const existing = await findUserByEmail(email);
   if (existing) {
@@ -22,6 +29,7 @@ const createUser = async ({ fullName, email, password, phone, role = 'customer' 
   const passwordHash = await hashPassword(password);
   const userId = uuidv4();
   const normalizedRole = role === 'garage_owner' ? 'garage_owner' : 'customer';
+  await ensureRoleExists(normalizedRole);
   const roleResult = await pool.query('SELECT id FROM roles WHERE name = $1', [normalizedRole]);
   const roleId = roleResult.rows[0]?.id;
 
