@@ -23,22 +23,6 @@ services:
         generateValue: true
       - key: BASE_URL
         value: https://mobile-garage-sys.onrender.com
-      - key: CLOUDINARY_CLOUD_NAME
-        value: ""
-      - key: CLOUDINARY_API_KEY
-        value: ""
-      - key: CLOUDINARY_API_SECRET
-        value: ""
-      - key: SMTP_HOST
-        value: ""
-      - key: SMTP_PORT
-        value: "587"
-      - key: SMTP_USER
-        value: ""
-      - key: SMTP_PASS
-        value: ""
-      - key: SMTP_FROM
-        value: no-reply@your-domain.com
 
 databases:
   - name: mobile-garage-db
